@@ -1,10 +1,13 @@
 package com.conagrovet.gestioncitas.usuarios.service;
 
 import com.conagrovet.gestioncitas.usuarios.dto.ResponseLoginDto;
+import com.conagrovet.gestioncitas.usuarios.entity.Usuario;
 import com.conagrovet.gestioncitas.usuarios.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -15,9 +18,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseLoginDto login(String email, String password) {
-        var usuario = repo.findUserByEmail(email);
+        List<Usuario> usuario = repo.findUserByEmail(email);
         ResponseLoginDto responseLogin = new ResponseLoginDto();
-        if (usuario !=null){
+        if (usuario.size()>0){
            boolean response =  encoder.matches(password, usuario.get(0).getPassword());
            if (response){
                if (usuario.get(0).getEstado().equals("I")){
