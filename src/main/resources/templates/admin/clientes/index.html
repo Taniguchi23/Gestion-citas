@@ -19,6 +19,22 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
+                <div th:if="${mensajeOk!=null}"   class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeOk}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeError!=null}"   class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeError}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeEmail!=null}"   class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeEmail}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeDocumento!=null}"   class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeDocumento}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
                 <div class="card">
                     <div class="card-body">

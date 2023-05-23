@@ -207,14 +207,14 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="#" alt="" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">Nombre</span>
+                    <img th:src="@{'/uploads/avatar/'+${session.authImagen}}" alt="" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2" th:text="${session.authNombre}"></span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>ssssss</h6>
-                        <span>sss</span>
+                        <h6 th:text="${session.authNombre}"></h6>
+                        <span ></span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -240,12 +240,12 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item d-flex align-items-center" href="/auth/logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Cerrar Sesión</span>
                         </a>
-                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none">
-                            @csrf
+                        <form id="logout-form" action="/auth/logout" method="POST" style="display: none">
+
                         </form>
                     </li>
 
@@ -269,30 +269,32 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#usuarios" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-person"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="usuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="/usuarios/clientes">
-                        <i class="bi bi-circle"></i><span>Clientes</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#usuarios" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-person"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="usuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/usuarios/clientes">
+                            <i class="bi bi-circle"></i><span>Clientes</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="/usuarios/veterinarios">
-                        <i class="bi bi-circle"></i><span>Veterinarios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/usuarios/administradores">
-                        <i class="bi bi-circle"></i><span>Administradores</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="/usuarios/veterinarios">
+                            <i class="bi bi-circle"></i><span>Veterinarios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/usuarios/administradores">
+                            <i class="bi bi-circle"></i><span>Administradores</span>
+                        </a>
+                    </li>
 
-            </ul>
-        </li><!-- End Components Nav -->
+                </ul>
+            </li><!-- End Components Nav -->
+
+
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#registros" data-bs-toggle="collapse" href="#">
@@ -300,44 +302,53 @@
             </a>
             <ul id="registros" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Marcas</span>
+                    <a href="/mascotas">
+                        <i class="bi bi-circle"></i><span>Mascotas</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Productos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Vacunas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Tipo de animal</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Razas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Stock Vacunas</span>
+                    <a href="/citas">
+                        <i class="bi bi-circle"></i><span>Citas</span>
                     </a>
                 </li>
             </ul>
         </li><!-- End Forms Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-question-circle"></i>
-                <span>Consultas</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
+
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#clientes" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Citas</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="clientes" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/citas/historial">
+                            <i class="bi bi-circle"></i><span>Historial de citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/citas/proximas">
+                            <i class="bi bi-circle"></i><span>Citas próximas</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Forms Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#mascotas" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Mascotas</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="mascotas" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/mascotas">
+                            <i class="bi bi-circle"></i><span>Lista de mascotas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Forms Nav -->
+
+
 
 
     </ul>

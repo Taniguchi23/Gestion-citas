@@ -5,8 +5,12 @@ import com.conagrovet.gestioncitas.global.helpers.Util;
 import com.conagrovet.gestioncitas.usuarios.dto.UsuarioDto;
 import com.conagrovet.gestioncitas.usuarios.entity.Usuario;
 import com.conagrovet.gestioncitas.usuarios.repository.UsuariosRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,12 +21,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UsuariosServiceImpl implements UsuariosService {
 
     @Autowired
@@ -33,6 +39,7 @@ public class UsuariosServiceImpl implements UsuariosService {
 
     @Value("${imagen.directorio.avatar}")
     private String directorioImagenes;
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     LocalDate fechaActual = LocalDate.now();
     Date fechaActualDate = java.sql.Date.valueOf(fechaActual);
@@ -62,6 +69,7 @@ public class UsuariosServiceImpl implements UsuariosService {
 
     @Override
     public Boolean guardarUsuario(String nombre, String apellido_paterno, String apellido_materno, Integer tipo_doc, String num_doc, String email, String password, String telefono, Character sexo, Date fecha_nacimiento, MultipartFile imagen , Character estado, Character rol) {
+
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setApellido_paterno(apellido_paterno);
@@ -69,7 +77,7 @@ public class UsuariosServiceImpl implements UsuariosService {
         usuario.setTipo_doc(tipo_doc);
         usuario.setNum_doc(num_doc);
         usuario.setEmail(email);
-        usuario.setPassword(password);
+        usuario.setPassword(encoder.encode(password));
         usuario.setTelefono(telefono);
         usuario.setFecha_nacimiento(fecha_nacimiento);
         usuario.setEstado(estado);
@@ -77,18 +85,41 @@ public class UsuariosServiceImpl implements UsuariosService {
         usuario.setSexo(sexo);
         usuario.setCreated_at(fechaActualDate);
         usuario.setCreated_user(1);
-
-        // Guarda el archivo de imagen en el sistema de archivos del proyecto
         if (!imagen.isEmpty()) {
+           // Path directorioRecursos = Paths.get("src//main//resources//static/uploads");
+           // String rootPath = directorioRecursos.toFile().getAbsolutePath();
+            try {
+                String filename = imagen.getOriginalFilename();
+                int dotIndex = filename.lastIndexOf('.');
+                String extension = filename.substring(dotIndex + 1);
+                String nombreImagen = "avatar_"+num_doc+"_" + System.currentTimeMillis()+"."+extension;
+
+                byte[] bytes = imagen.getBytes();
+                Path rutaCompleta = Paths.get(directorioImagenes + "//"+nombreImagen);
+                Files.write(rutaCompleta, bytes);
+                                usuario.setImagen(nombreImagen);
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }else {
+            if (Character.toString('M').equals(sexo)){
+                usuario.setImagen("mujer.jpg");
+            }else {
+                usuario.setImagen("hombre.jpg");
+            }
+        }
+        // Guarda el archivo de imagen en el sistema de archivos del proyecto
+        /* if (!imagen.isEmpty()) {
             String imagenNombre = System.currentTimeMillis() + "_" + imagen.getOriginalFilename();
-            String rutaImagen = "uploads/"  ;
+            String rutaImagen = "d:/uploads/"  ;
             String nombreImagen = Util.guardarArchivo(imagen, rutaImagen);
             if (nombreImagen != null){
                 usuario.setImagen(imagenNombre);
             }
-           /* Path rutaArchivo = Paths.get(rutaImagen);
-            Files.copy(imagen.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);*/
-        }
+           // Path rutaArchivo = Paths.get(rutaImagen);
+           // Files.copy(imagen.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
+        }*/
 
         // Guarda el objeto Usuario en la base de datos
         repo.save(usuario);
@@ -112,6 +143,24 @@ public class UsuariosServiceImpl implements UsuariosService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> verificarUsuario(String email, String num_doc) {
+        List<String> listaMensaje = new ArrayList<>();
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Usuario>  listaUsuario = repo.existUsuario(email,num_doc);
+        if (listaUsuario.size() > 0){
+            if (listaUsuario.get(0).getEmail().equals(email)){
+                String mensaje = "email";
+                listaMensaje.add(mensaje);
+            }
+            if (listaUsuario.get(0).getNum_doc().equals(num_doc)){
+                String mensaje = "documento";
+                listaMensaje.add(mensaje);
+            }
+        }
+        return listaMensaje;
     }
 
     private UsuarioDto mapUsuarioToUsuarioDto(Usuario usuario) {

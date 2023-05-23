@@ -20,5 +20,6 @@ public interface UsuariosService {
              String telefono, Character sexo, Date fecha, MultipartFile imagen, Character estado, Character rol);
 
     Boolean eliminarUsuario(Integer id);
+    List<String> verificarUsuario(String email, String num_doc);
 
 }
