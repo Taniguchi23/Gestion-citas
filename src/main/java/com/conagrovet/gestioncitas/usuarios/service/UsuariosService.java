@@ -23,10 +23,12 @@ public interface UsuariosService {
                            String telefono, Character sexo, Date fecha, MultipartFile imagen, Character estado, Character rol, Integer id);
 
     Boolean eliminarUsuario(Integer id);
+
     List<String> verificarUsuario(String email, String num_doc, String accion, Integer id);
 
     Boolean findByDocumento(String documento);
 
     Usuario findUsuarioById(Integer id);
+
 
 }

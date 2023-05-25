@@ -207,6 +207,7 @@ public class UsuariosServiceImpl implements UsuariosService {
     }
 
     @Override
+
     public Boolean findByDocumento(String documento) {
         Usuario usuario = repo.findFirstByDocumento(documento);
         return usuario!= null;
@@ -215,6 +216,7 @@ public class UsuariosServiceImpl implements UsuariosService {
     @Override
     public Usuario findUsuarioById(Integer id) {
         return  repo.findById(id).orElse(null);
+
     }
 
     private UsuarioDto mapUsuarioToUsuarioDto(Usuario usuario) {

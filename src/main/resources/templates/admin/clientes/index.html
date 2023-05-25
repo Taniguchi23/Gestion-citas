@@ -6,12 +6,12 @@
 <div layout:fragment="content">
 
     <div class="pagetitle">
-        <h1>Falta completar</h1>
+        <h1>Clientes</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Inicio</a></li>
                 <li class="breadcrumb-item">Usuarios</li>
-                <li class="breadcrumb-item active">Falta completar</li>
+                <li class="breadcrumb-item active">Clientes</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -41,11 +41,11 @@
                         <div class="col-md-12">
                             <div class="row justify-content-between">
                                 <div class="col-4">
-                                    <h5 class="card-title mt-2 ml-2">Lista de Falta completar</h5>
+                                    <h5 class="card-title mt-2 ml-2">Lista de Clientes</h5>
                                 </div>
 
                                 <div class="mt-4 col-2">
-                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Usuario</button>
+                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Cliente</button>
                                 </div>
 
                             </div>
@@ -62,8 +62,6 @@
                             </tr>
                             </thead>
                             <tbody>
-
-
                             <tr th:each="usuarioDto, key : ${listaUsuarios}">
                                 <th scope="row" th:text="${key.index +1}"></th>
                                 <td th:text="${usuarioDto.nombre+ ' '+ usuarioDto.apellido_paterno}"></td>
@@ -73,7 +71,6 @@
                                     <a class="text-danger" th:href="@{/usuarios/clientes/eliminar/{id}(id=${usuarioDto.id})}" onclick="return confirm ('¿Está seguro de eliminar este registro')"><i class="bi bi-trash-fill"></i></a>
                                 </td>
                             </tr>
-
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
@@ -91,7 +88,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitulo">Nuevo Usuario</h5>
+                    <h5 class="modal-title" id="modalTitulo">Editar Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="#" method="post" id="formulario" enctype="multipart/form-data">
@@ -247,7 +244,7 @@
             let val_tipo = $(this).data('id');
             let val_url_store = '/usuarios/clientes/store';
             $('#formulario').attr('action',val_url_store);
-            $('#modalTitulo').html('Crear Cliente');
+            $('#modalTitulo').html('Actualizar Cliente');
             $('#nombre').val('');
             $('#apellido_paterno').val('');
             $('#apellido_materno').val('');
