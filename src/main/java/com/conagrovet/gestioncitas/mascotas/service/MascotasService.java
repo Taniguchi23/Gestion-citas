@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface MascotasService {
     List<MascotaResponseDto> getListMascota();
-    Boolean saveMascota(String nombre, Integer usuario_id, String color, String tipo, String raza, Character sexo, Character esterilizado, Character estado, MultipartFile imagen, Date fecha_nacimiento,Double peso);
-
+    Boolean saveMascota(String nombre, String usuario_id, String color, String tipo, String raza, Character sexo, Character esterilizado, Character estado, MultipartFile imagen, Date fecha_nacimiento,Double peso);
+    Boolean updateMascota(String nombre, String num_doc, String color, String tipo, String raza, Character sexo, Character esterilizado, Character estado, MultipartFile imagen, Date fecha_nacimiento,Double peso,Integer id);
     MascotaResponseDto getMascota(Integer id);
 
-
+    Boolean eliminarMascota(Integer id);
 }

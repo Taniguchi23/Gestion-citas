@@ -71,11 +71,11 @@
                                 <th scope="row" th:text="${key.index + 1}"></th>
                                 <td th:text="${mascotaDto.tipo}"></td>
                                 <td th:text="${mascotaDto.nombre}"></td>
-                                <td> <img th:src="@{'/uploads/mascota/'+${mascotaDto.imagen}}" alt="" class="rounded-circle"></td>
+                                <td> <img class="img-fluid rounded-circle" style="width: 110px" th:src="@{'/uploads/mascota/'+${mascotaDto.imagen}}" ></td>
                                 <td th:text="${mascotaDto.usuario.nombre_completo}"></td>
-                                <td th:text="${mascotaDto.estado}"></td>
+                                <td th:text="${#strings.equals(mascotaDto.estado, 'A') ? 'Activo' : 'Inactivo'}"></td>
                                 <td>
-                                    <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" data-id="##"><i class="bi bi-pencil-square"></i></button>
+                                    <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" th:data-id="${mascotaDto.id}"><i class="bi bi-pencil-square"></i></button>
                                     <a class="text-danger" th:href="@{/mascotas/eliminar/{id}(id=${mascotaDto.id})}" onclick="return confirm ('¿Está seguro de eliminar este registro')"><i class="bi bi-trash-fill"></i></a>
                                 </td>
                             </tr>
@@ -106,75 +106,60 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <label  class="form-label">Nombres</label>
+                                    <label  class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="nombre"  name="nombre" value="" required>
                                 </div>
-                                <div class="col-md-6">
-                                    <label  class="form-label">Apellido Paterno</label>
-                                    <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" required>
+                                <div class="col-md-12">
+                                    <label  class="form-label">Dueño : Número de documento</label>
+                                    <input type="text" class="form-control border border-4" id="usuario_id"  name="usuario_id" value="" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label  class="form-label">Apellido Materno</label>
-                                    <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" required>
+                                    <label  class="form-label">Tipo</label>
+                                    <input type="text" class="form-control" id="tipo" name="tipo" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Tipo Documento</label>
-                                    <select class="form-select" id="tipo_doc" name="tipo_doc" required>
-                                        <option value="1">DNI</option>
-                                        <option value="4">C.E.</option>
-                                        <option value="6">RUC</option>
-                                        <option value="7">Pasaporte</option>
+                                    <label  class="form-label">Raza</label>
+                                    <input type="text" class="form-control" id="raza" name="raza" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="form-label">Color</label>
+                                    <input type="text" class="form-control" id="color" name="color" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="form-label">Sexo</label>
+                                    <select class="form-select" id="sexo" name="sexo" required>
+                                        <option value="H">Hembra</option>
+                                        <option value="M">Macho</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label  class="form-label">Número Documento</label>
-                                    <input type="text" class="form-control" id="num_doc" name="num_doc" required>
-                                    <span  class="form-label labelDni" style="display: none"></span>
+                                    <label  class="form-label">Esterilizado</label>
+                                    <select class="form-select" id="esterilizado" name="esterilizado" required>
+                                        <option value="N">No</option>
+                                        <option value="S">Si</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">peso Kg</label>
+                                    <input type="number" step="0.01" class="form-control" id="peso" name="peso" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <label  class="form-label">Email</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                                        <input type="email" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend2" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label  class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                                <div class="col-md-6" style="display: none">
-                                    <label class="form-label">Role</label>
-                                    <select class="form-select" id="role" name="rol" required>
-                                        <option value="A">Administrador</option>
-                                        <option value="D">Veterinario</option>
-                                        <option value="C">Cliente</option>
-                                        <option value="E">Empleado</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Teléfono</label>
-                                    <input type="text" class="form-control" id="telefono" name="telefono" required>
-                                </div>
-                                <div class="col-md-6">
                                     <label class="form-label">Fecha de nacimiento</label>
                                     <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label  class="form-label">Sexo</label>
-                                    <select class="form-select" id="sexo" name="sexo" required>
-                                        <option value="H">Hombre</option>
-                                        <option value="M">Mujer</option>
-                                    </select>
+
+
+                                <div class="text-center col-md-12" id="divImagen" style="display: none; width: 200px">
+                                    <img class="img-fluid rounded mx-auto d-block" src="" alt="">
                                 </div>
+
                                 <div class="col-md-12">
                                     <label  class="form-label">Foto</label>
                                     <input type="file" class="form-control" id="imagen" name="imagen" >
                                 </div>
-                                <div class="col-md-12">
-                                    <label  class="form-label">Direccion</label>
-                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
-                                </div>
+
 
                                 <div id="divEstado" class="col-md-6" style="display: none">
                                     <label  class="form-label">Estado</label>
@@ -200,65 +185,68 @@
 
         $('#tabla').on('click','.btnEditar',function (){
             let val_id = $(this).data('id');
-            let val_url = '/usuarios/edit/'+val_id;
-            let val_url_update = '/usuarios/update/'+val_id;
+            let val_url = '/api/mascotas/edit/'+val_id;
+            let val_url_update = '/mascotas/update/'+val_id;
             $.get(val_url, function (res){
+                console.log(res)
                 $('#formulario').attr('action',val_url_update);
-                $('#modalTitulo').html('Editar Usuario');
-                $('#name').val(res.name);
-                $('#lastname').val(res.lastname);
-                $('#email').val(res.email);
-                $('#dni').val(res.dni);
-                $('#role').val(res.tipo);
+                $('#modalTitulo').html('Editar Mascota');
+
+                $('#nombre').val(res.mascotaResponseDto.nombre);
+                $('#tipo').val(res.mascotaResponseDto.tipo);
+                $('#usuario_id').val(res.mascotaResponseDto.usuario.num_doc);
+                $('#raza').val(res.mascotaResponseDto.raza);
+                $('#peso').val(res.mascotaResponseDto.peso);
+                $('#color').val(res.mascotaResponseDto.color);
+                $('#sexo').val(res.mascotaResponseDto.sexo);
+                $('#esterilizado').val(res.mascotaResponseDto.esterilizado);
+                $('#divImagen').css('display','block');
+                $('#divImagen img').attr('src',"/uploads/mascota/"+res.mascotaResponseDto.imagen);
+                $('#imagen').val('');
+                $('#fecha_nacimiento').val(res.mascotaResponseDto.fecha_nacimiento_string);
                 $('#divEstado').css('display','block');
-                $('#estado').val(res.estado);
-                $('#password').attr('required',false);
-                $('#telefono').val(res.telefono);
-                $('#sexo').val(res.sexo);
-                $('#direccion').val(res.direccion);
+                $('#estado').val(res.mascotaResponseDto.estado);
+
                 $('.btnGuardar').html('Editar');
                 $('#modalDatos').modal('show');
             });
         });
 
-        function validarDni(){
-            let val_dni = $('#dni').val();
-            if (val_dni.length() === 8){
-                let val_url = '/api/dni/'+val_dni;
-                $.get(val_url,function (res){
-                    if(res==='ok'){
-                        return true;
-                    }else {
-                        $('.labelDni').css('display','block').val('Este dni no está disponible');
-                        return false;
-                    }
-                });
-            }else {
-                $('.labelDni').css('display','block').val('El dni debe tener 8 números');
-                return false;
-            }
+        $('#usuario_id').keyup(function () {
+            let documento =  $(this).val();
+            let url = "/api/usuarios/existe/"+documento;
+            $.get(url, function (res){
+                if (res.estado=="ok"){
+                    $('.btnGuardar').html('Guardar').prop('disabled', false);
+                    $('#usuario_id').removeClass("border-danger");
+                    $('#usuario_id').addClass("border-success");
+                }else {
+                    $('.btnGuardar').html('Guardar').prop('disabled', true);
+                    $('#usuario_id').removeClass("border-success");
+                    $('#usuario_id').addClass("border-danger");
+                }
+            });
+        });
 
-        }
 
         $('.btnCrear').click(function (){
-            let val_tipo = $(this).data('id');
-            let val_url_store = '/usuarios/clientes/store';
+            let val_url_store = '/mascotas/store';
             $('#formulario').attr('action',val_url_store);
-            $('#modalTitulo').html('Crear Cliente');
+            $('#modalTitulo').html('Crear Mascota');
             $('#nombre').val('');
-            $('#apellido_paterno').val('');
-            $('#apellido_materno').val('');
-            $('#email').val('');
+            $('#tipo').val('');
+            $('#usuario_id').val('');
+            $('#raza').val('');
+            $('#color').val('');
+            $('#sexo option:first').prop('selected',true);
+            $('#esterilizado option:first').prop('selected',true);
+            $('#divImagen').css('display','none');
+            $('#divImagen img').attr('src','')
             $('#imagen').val('');
             $('#fecha_nacimiento').val('');
-            $('#num_doc').val('');
-            $('#tipo_doc option:first').prop('selected',true);
             $('#divEstado').css('display','none');
-            $('#sexo option:first').prop('selected',true);
-            $('#password').attr('required',true);
-            $('#telefono').val('');
-            $('#direccion').val('');
-            $('.btnGuardar').html('Guardar');
+
+            $('.btnGuardar').html('Guardar').prop('disabled', true);
             $('#modalDatos').modal('show');
         });
     </script>

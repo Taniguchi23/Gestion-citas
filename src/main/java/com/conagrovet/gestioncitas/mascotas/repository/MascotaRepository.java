@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface MascotaRepository extends JpaRepository<Mascota,Integer> {
-    @Query("SELECT m  FROM Mascota m  ORDER BY m.id DESC ")
+    @Query("SELECT m  FROM Mascota m  where  m.estado = 'A' ORDER BY m.id DESC ")
     List<Mascota> findMascotas();
 
     @Query("SELECT m FROM Mascota m WHERE m.id = :id ")

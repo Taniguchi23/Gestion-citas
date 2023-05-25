@@ -30,9 +30,9 @@ public class Mascota {
     @Column(nullable = true)
     private Date fecha_nacimiento;
     @Column(nullable = true)
-    private Timestamp created_at;
+    private Date created_at;
     @Column(nullable = true)
-    private Timestamp updated_at;
+    private Date updated_at;
     @Column(nullable = true)
     private Integer created_user;
     @Column(nullable = true)

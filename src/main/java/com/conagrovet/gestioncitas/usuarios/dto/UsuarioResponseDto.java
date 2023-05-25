@@ -9,4 +9,5 @@ public class UsuarioResponseDto {
     private Integer id;
     private String nombre_completo;
     private String email;
+    private String num_doc;
 }

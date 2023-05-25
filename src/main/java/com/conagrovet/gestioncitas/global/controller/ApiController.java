@@ -3,6 +3,7 @@ package com.conagrovet.gestioncitas.global.controller;
 import com.conagrovet.gestioncitas.global.Cuerpo.Cuerpo;
 import com.conagrovet.gestioncitas.global.helpers.Util;
 import com.conagrovet.gestioncitas.global.response.AjaxResponse;
+import com.conagrovet.gestioncitas.global.response.ResponseMascota;
 import com.conagrovet.gestioncitas.global.response.ResponseUsuario;
 import com.conagrovet.gestioncitas.mascotas.dto.MascotaResponseDto;
 import com.conagrovet.gestioncitas.mascotas.entity.Mascota;
@@ -53,11 +54,13 @@ public class ApiController {
         return response;
     }
     @GetMapping("/mascotas/edit/{id}")
-    public AjaxResponse obtenerMascota(@PathVariable("id") String id) {
+    public ResponseMascota obtenerMascota(@PathVariable("id") String id) {
         log.error(id);
-        AjaxResponse response = new AjaxResponse();
+        ResponseMascota response = new ResponseMascota();
         MascotaResponseDto mascotaResponseDto = new MascotaResponseDto();
         mascotaResponseDto = mascotasService.getMascota(Integer.parseInt(id));
+        response.setEstado("ok");
+        response.setMascotaResponseDto(mascotaResponseDto);
         return response;
     }
     

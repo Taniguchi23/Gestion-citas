@@ -19,7 +19,7 @@ public class AuthController {
     private AuthService authService;
     @PostMapping("/login" )
     public String login(@RequestParam("email") String email, @RequestParam("password") String password, RedirectAttributes redirectAttributes, HttpSession session) {
-        log.info("login entro");
+
         ResponseLoginDto responseLoginDto =  authService.login(email,password);
         if (responseLoginDto.getEstado().equals("ok")){
             session.setAttribute("authId", responseLoginDto.getUsuario().getId());

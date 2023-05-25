@@ -26,4 +26,5 @@ public class MascotaResponseDto {
     private Character estado;
 
     private Date fecha_nacimiento;
+    private String fecha_nacimiento_string ;
 }
