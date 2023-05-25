@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface UsuariosRepository extends JpaRepository<Usuario,Integer> {
-    @Query("SELECT u FROM Usuario u WHERE u.estado = 'A' and u.rol = 'V' ORDER BY u.id DESC ")
+    @Query("SELECT u FROM Usuario u ORDER BY u.id DESC ")
     List<Usuario> findVeterinariosActivos();
     @Query("SELECT u FROM Usuario u WHERE u.estado = 'A' and u.rol = 'C' ORDER BY u.id DESC ")
     List<Usuario> findClientesActivos();
@@ -23,4 +23,7 @@ public interface UsuariosRepository extends JpaRepository<Usuario,Integer> {
     List<Usuario>  existUsuario(@Param("email") String email, @Param("num_doc") String num_doc);
     @Query("SELECT u FROM Usuario u WHERE u.email = :email ")
     List<Usuario>  findUserByEmail(@Param("email") String email);
+
+    @Query("SELECT u FROM Usuario u WHERE u.num_doc = :documento ")
+   Usuario  findFirstByDocumento(@Param("documento") String documento);
 }

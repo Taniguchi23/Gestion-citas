@@ -6,12 +6,12 @@
 <div layout:fragment="content">
 
     <div class="pagetitle">
-        <h1>Falta completar</h1>
+        <h1>Mascotas</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                <li class="breadcrumb-item">Usuarios</li>
-                <li class="breadcrumb-item active">Falta completar</li>
+                <li class="breadcrumb-item">Registros</li>
+                <li class="breadcrumb-item active">Lista Mascotas</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -41,11 +41,11 @@
                         <div class="col-md-12">
                             <div class="row justify-content-between">
                                 <div class="col-4">
-                                    <h5 class="card-title mt-2 ml-2">Lista de Falta completar</h5>
+                                    <h5 class="card-title mt-2 ml-2">Lista de mascotas</h5>
                                 </div>
 
                                 <div class="mt-4 col-2">
-                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Usuario</button>
+                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Mascota</button>
                                 </div>
 
                             </div>
@@ -56,21 +56,27 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Tipo</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Correo</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Dueño</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
 
 
-                            <tr th:each="usuarioDto, key : ${listaUsuarios}">
-                                <th scope="row" th:text="${key.index +1}"></th>
-                                <td th:text="${usuarioDto.nombre+ ' '+ usuarioDto.apellido_paterno}"></td>
-                                <td th:text="${usuarioDto.email}"></td>
+                            <tr th:each="mascotaDto, key : ${listaMascotas}">
+                                <th scope="row" th:text="${key.index + 1}"></th>
+                                <td th:text="${mascotaDto.tipo}"></td>
+                                <td th:text="${mascotaDto.nombre}"></td>
+                                <td> <img th:src="@{'/uploads/mascota/'+${mascotaDto.imagen}}" alt="" class="rounded-circle"></td>
+                                <td th:text="${mascotaDto.usuario.nombre_completo}"></td>
+                                <td th:text="${mascotaDto.estado}"></td>
                                 <td>
-                                    <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" th:data-id="${usuarioDto.id}" ><i class="bi bi-pencil-square"></i></button>
-                                    <a class="text-danger" th:href="@{/usuarios/clientes/eliminar/{id}(id=${usuarioDto.id})}" onclick="return confirm ('¿Está seguro de eliminar este registro')"><i class="bi bi-trash-fill"></i></a>
+                                    <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" data-id="##"><i class="bi bi-pencil-square"></i></button>
+                                    <a class="text-danger" th:href="@{/mascotas/eliminar/{id}(id=${mascotaDto.id})}" onclick="return confirm ('¿Está seguro de eliminar este registro')"><i class="bi bi-trash-fill"></i></a>
                                 </td>
                             </tr>
 
@@ -161,14 +167,14 @@
                                         <option value="M">Mujer</option>
                                     </select>
                                 </div>
-                                <div class="text-center" id="divImagen" style="display: none; width: 200px">
-                                    <img src="" alt="">
-                                </div>
                                 <div class="col-md-12">
                                     <label  class="form-label">Foto</label>
                                     <input type="file" class="form-control" id="imagen" name="imagen" >
                                 </div>
-
+                                <div class="col-md-12">
+                                    <label  class="form-label">Direccion</label>
+                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                </div>
 
                                 <div id="divEstado" class="col-md-6" style="display: none">
                                     <label  class="form-label">Estado</label>
@@ -194,33 +200,24 @@
 
         $('#tabla').on('click','.btnEditar',function (){
             let val_id = $(this).data('id');
-            let val_url = '/api/usuarios/edit/'+val_id;
-            let val_url_update = '/usuarios/clientes/update/'+val_id;
+            let val_url = '/usuarios/edit/'+val_id;
+            let val_url_update = '/usuarios/update/'+val_id;
             $.get(val_url, function (res){
-                if (res.estado == "ok"){
-                console.log(res)
                 $('#formulario').attr('action',val_url_update);
                 $('#modalTitulo').html('Editar Usuario');
-                $('#nombre').val(res.usuarioDto.nombre);
-                $('#apellido_paterno').val(res.usuarioDto.apellido_paterno);
-                $('#apellido_materno').val(res.usuarioDto.apellido_materno);
-                $('#email').val(res.usuarioDto.email);
-                $('#imagen').val('');
-                $('#fecha_nacimiento').val(res.usuarioDto.fecha_nacimiento_string);
-                $('#num_doc').val(res.usuarioDto.num_doc);
-                $('#tipo_doc').val(res.usuarioDto.tipo_doc);
+                $('#name').val(res.name);
+                $('#lastname').val(res.lastname);
+                $('#email').val(res.email);
+                $('#dni').val(res.dni);
+                $('#role').val(res.tipo);
                 $('#divEstado').css('display','block');
-                $('#divImagen').css('display','block');
-                $('#divImagen img').attr('src',"/uploads/avatar/"+res.usuarioDto.imagen);
-                $('#sexo').val(res.usuarioDto.sexo);
+                $('#estado').val(res.estado);
                 $('#password').attr('required',false);
-                $('#password').val('');
-                $('#telefono').val(res.usuarioDto.telefono);
+                $('#telefono').val(res.telefono);
+                $('#sexo').val(res.sexo);
+                $('#direccion').val(res.direccion);
                 $('.btnGuardar').html('Editar');
                 $('#modalDatos').modal('show');
-                }else {
-                    alert("Error en el servidor")
-                }
             });
         });
 
@@ -257,8 +254,6 @@
             $('#num_doc').val('');
             $('#tipo_doc option:first').prop('selected',true);
             $('#divEstado').css('display','none');
-            $('#divImagen').css('display','none');
-            $('#divImagen img').attr('src','')
             $('#sexo option:first').prop('selected',true);
             $('#password').attr('required',true);
             $('#telefono').val('');

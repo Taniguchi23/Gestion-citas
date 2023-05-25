@@ -21,4 +21,5 @@ public class UsuarioDto {
     private Character estado;
     private String imagen;
     private Date fecha_nacimiento;
+    private String fecha_nacimiento_string;
 }

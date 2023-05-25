@@ -86,8 +86,7 @@ public class UsuariosServiceImpl implements UsuariosService {
         usuario.setCreated_at(fechaActualDate);
         usuario.setCreated_user(1);
         if (!imagen.isEmpty()) {
-           // Path directorioRecursos = Paths.get("src//main//resources//static/uploads");
-           // String rootPath = directorioRecursos.toFile().getAbsolutePath();
+
             try {
                 String filename = imagen.getOriginalFilename();
                 int dotIndex = filename.lastIndexOf('.');
@@ -109,23 +108,50 @@ public class UsuariosServiceImpl implements UsuariosService {
                 usuario.setImagen("hombre.jpg");
             }
         }
-        // Guarda el archivo de imagen en el sistema de archivos del proyecto
-        /* if (!imagen.isEmpty()) {
-            String imagenNombre = System.currentTimeMillis() + "_" + imagen.getOriginalFilename();
-            String rutaImagen = "d:/uploads/"  ;
-            String nombreImagen = Util.guardarArchivo(imagen, rutaImagen);
-            if (nombreImagen != null){
-                usuario.setImagen(imagenNombre);
-            }
-           // Path rutaArchivo = Paths.get(rutaImagen);
-           // Files.copy(imagen.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
-        }*/
-
-        // Guarda el objeto Usuario en la base de datos
         repo.save(usuario);
         return  true;
     }
 
+    @Override
+    public Boolean actualizarUsuario(String nombre, String apellido_paterno, String apellido_materno, Integer tipo_doc, String num_doc, String email, String password, String telefono, Character sexo, Date fecha_nacimiento, MultipartFile imagen , Character estado, Character rol, Integer id) {
+
+        Usuario usuario = repo.findById(id).orElse(null);
+        usuario.setNombre(nombre);
+        usuario.setApellido_paterno(apellido_paterno);
+        usuario.setApellido_materno(apellido_materno);
+        usuario.setTipo_doc(tipo_doc);
+        usuario.setNum_doc(num_doc);
+        usuario.setEmail(email);
+        usuario.setPassword(encoder.encode(password));
+        usuario.setTelefono(telefono);
+        usuario.setFecha_nacimiento(fecha_nacimiento);
+        usuario.setEstado(estado);
+        usuario.setRol(rol);
+        usuario.setSexo(sexo);
+        usuario.setCreated_at(fechaActualDate);
+        usuario.setCreated_user(1);
+        if (!imagen.isEmpty()) {
+
+            try {
+                String filename = imagen.getOriginalFilename();
+                int dotIndex = filename.lastIndexOf('.');
+                String extension = filename.substring(dotIndex + 1);
+                String nombreImagen = "avatar_"+num_doc+"_" + System.currentTimeMillis()+"."+extension;
+
+                byte[] bytes = imagen.getBytes();
+                Path rutaCompleta = Paths.get(directorioImagenes + "//"+nombreImagen);
+                Files.write(rutaCompleta, bytes);
+                usuario.setImagen(nombreImagen);
+
+            }catch (IOException e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        repo.save(usuario);
+        return  true;
+    }
     @Override
     public Boolean eliminarUsuario(Integer id) {
         try {
@@ -146,8 +172,9 @@ public class UsuariosServiceImpl implements UsuariosService {
     }
 
     @Override
-    public List<String> verificarUsuario(String email, String num_doc) {
+    public List<String> verificarUsuario(String email, String num_doc, String accion, Integer id) {
         List<String> listaMensaje = new ArrayList<>();
+        if (accion.equals("S")){
         Pageable pageable = PageRequest.of(0, 1);
         List<Usuario>  listaUsuario = repo.existUsuario(email,num_doc);
         if (listaUsuario.size() > 0){
@@ -160,7 +187,34 @@ public class UsuariosServiceImpl implements UsuariosService {
                 listaMensaje.add(mensaje);
             }
         }
+        }else {
+            List<Usuario> listaUsuario = repo.existUsuario(email,num_doc);
+            boolean flag = false;
+            for (Usuario u: listaUsuario){
+                if (u !=null && u.getId() != id) {
+                    if (u.getEmail().equals(email)){
+                        String mensaje = "email";
+                        listaMensaje.add(mensaje);
+                    }
+                    if (u.getNum_doc().equals(num_doc)){
+                        String mensaje = "documento";
+                        listaMensaje.add(mensaje);
+                    }
+                }
+            }
+        }
         return listaMensaje;
+    }
+
+    @Override
+    public Boolean findByDocumento(String documento) {
+        Usuario usuario = repo.findFirstByDocumento(documento);
+        return usuario!= null;
+    }
+
+    @Override
+    public Usuario findUsuarioById(Integer id) {
+        return  repo.findById(id).orElse(null);
     }
 
     private UsuarioDto mapUsuarioToUsuarioDto(Usuario usuario) {

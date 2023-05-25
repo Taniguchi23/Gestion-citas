@@ -1,6 +1,7 @@
 package com.conagrovet.gestioncitas.usuarios.controller;
 
 import com.conagrovet.gestioncitas.usuarios.dto.ResponseLoginDto;
+import com.conagrovet.gestioncitas.usuarios.service.AuthService;
 import com.conagrovet.gestioncitas.usuarios.service.AuthServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +16,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthController {
 
     @Autowired
-    private AuthServiceImpl service;
+    private AuthService authService;
     @PostMapping("/login" )
     public String login(@RequestParam("email") String email, @RequestParam("password") String password, RedirectAttributes redirectAttributes, HttpSession session) {
         log.info("login entro");
-        ResponseLoginDto responseLoginDto =  service.login(email,password);
+        ResponseLoginDto responseLoginDto =  authService.login(email,password);
         if (responseLoginDto.getEstado().equals("ok")){
             session.setAttribute("authId", responseLoginDto.getUsuario().getId());
             session.setAttribute("authNombre", responseLoginDto.getUsuario().getNombre());

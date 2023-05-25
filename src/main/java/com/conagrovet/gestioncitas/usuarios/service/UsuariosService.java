@@ -19,7 +19,14 @@ public interface UsuariosService {
     Boolean guardarUsuario(String nombre, String apellido_paterno, String apellido_materno, Integer tipo_doc, String num_doc, String email, String password,
              String telefono, Character sexo, Date fecha, MultipartFile imagen, Character estado, Character rol);
 
+    Boolean actualizarUsuario(String nombre, String apellido_paterno, String apellido_materno, Integer tipo_doc, String num_doc, String email, String password,
+                           String telefono, Character sexo, Date fecha, MultipartFile imagen, Character estado, Character rol, Integer id);
+
     Boolean eliminarUsuario(Integer id);
-    List<String> verificarUsuario(String email, String num_doc);
+    List<String> verificarUsuario(String email, String num_doc, String accion, Integer id);
+
+    Boolean findByDocumento(String documento);
+
+    Usuario findUsuarioById(Integer id);
 
 }
