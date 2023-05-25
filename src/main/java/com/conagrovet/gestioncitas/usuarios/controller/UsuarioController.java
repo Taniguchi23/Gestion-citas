@@ -84,7 +84,7 @@ public class UsuarioController {
     public String clientesUpdate(
             @RequestParam("nombre") String nombre, @RequestParam("apellido_paterno") String apellido_paterno, @RequestParam("apellido_materno") String apellido_materno,
             @RequestParam("tipo_doc") Integer tipo_doc, @RequestParam("num_doc") String num_doc,@RequestParam("email") String email, @RequestParam("password") String password,
-            @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,@RequestParam("rol") Character rol,
+            @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,@RequestParam("rol") Character rol,@RequestParam("estado") Character estado,
             @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes,@PathVariable("id") String id){
 
         List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc,"U",Integer.parseInt(id));
@@ -98,7 +98,7 @@ public class UsuarioController {
             }
 
         }else {
-            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,rol,'C',Integer.parseInt(id));
+            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,rol,Integer.parseInt(id));
 
             if (response){
                 redirectAttributes.addFlashAttribute("mensajeOk", "¡El cliente se ha actualizado satisfactoriamente!");
@@ -126,7 +126,7 @@ public class UsuarioController {
             @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,
             @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes){
 
-        List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc);
+        List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc, "S",0);
         if (listaMensaje.size() > 0){
             for (String mensaje: listaMensaje ){
                 if (mensaje.equals("email")){
@@ -177,7 +177,7 @@ public class UsuarioController {
             @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,
             @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes){
 
-        List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc);
+        List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc, "S", 0);
         if (listaMensaje.size() > 0){
             for (String mensaje: listaMensaje ){
                 if (mensaje.equals("email")){

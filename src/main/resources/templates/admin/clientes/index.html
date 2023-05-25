@@ -159,7 +159,7 @@
                                     </select>
                                 </div>
                                 <div class="text-center" id="divImagen" style="display: none; width: 200px">
-                                    <img src="" alt="">
+                                    <img class="img-fluid rounded mx-auto d-block" src="" alt="">
                                 </div>
                                 <div class="col-md-12">
                                     <label  class="form-label">Foto</label>
@@ -221,24 +221,7 @@
             });
         });
 
-        function validarDni(){
-            let val_dni = $('#dni').val();
-            if (val_dni.length() === 8){
-                let val_url = '/api/dni/'+val_dni;
-                $.get(val_url,function (res){
-                    if(res==='ok'){
-                        return true;
-                    }else {
-                        $('.labelDni').css('display','block').val('Este dni no está disponible');
-                        return false;
-                    }
-                });
-            }else {
-                $('.labelDni').css('display','block').val('El dni debe tener 8 números');
-                return false;
-            }
 
-        }
 
         $('.btnCrear').click(function (){
             let val_tipo = $(this).data('id');

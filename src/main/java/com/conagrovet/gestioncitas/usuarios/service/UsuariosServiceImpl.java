@@ -122,7 +122,9 @@ public class UsuariosServiceImpl implements UsuariosService {
         usuario.setTipo_doc(tipo_doc);
         usuario.setNum_doc(num_doc);
         usuario.setEmail(email);
-        usuario.setPassword(encoder.encode(password));
+        if (!password.equals("")){
+            usuario.setPassword(encoder.encode(password));
+        }
         usuario.setTelefono(telefono);
         usuario.setFecha_nacimiento(fecha_nacimiento);
         usuario.setEstado(estado);
