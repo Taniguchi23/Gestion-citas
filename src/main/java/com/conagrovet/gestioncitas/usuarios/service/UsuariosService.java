@@ -21,5 +21,6 @@ public interface UsuariosService {
 
     Boolean eliminarUsuario(Integer id);
     List<String> verificarUsuario(String email, String num_doc);
+    UsuarioDto getUsuario (Integer id );
 
 }

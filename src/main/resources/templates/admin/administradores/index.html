@@ -6,12 +6,12 @@
 <div layout:fragment="content">
 
     <div class="pagetitle">
-        <h1>Falta completar</h1>
+        <h1>Administradores</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Inicio</a></li>
                 <li class="breadcrumb-item">Usuarios</li>
-                <li class="breadcrumb-item active">Falta completar</li>
+                <li class="breadcrumb-item active">Administradores</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -19,17 +19,33 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
+                <div th:if="${mensajeOk!=null}"   class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeOk}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeError!=null}"   class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeError}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeEmail!=null}"   class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeEmail}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeDocumento!=null}"   class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeDocumento}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
                 <div class="card">
                     <div class="card-body">
                         <div class="col-md-12">
                             <div class="row justify-content-between">
                                 <div class="col-4">
-                                    <h5 class="card-title mt-2 ml-2">Lista de Falta completar</h5>
+                                    <h5 class="card-title mt-2 ml-2">Lista de Administradores</h5>
                                 </div>
 
                                 <div class="mt-4 col-2">
-                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Usuario</button>
+                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Administrador</button>
                                 </div>
 
                             </div>
@@ -46,17 +62,15 @@
                             </tr>
                             </thead>
                             <tbody>
-
                             <tr th:each="usuarioDto, key : ${listaUsuarios}">
                                 <th scope="row" th:text="${key.index}"></th>
                                 <td th:text="${usuarioDto.nombre+ ' '+ usuarioDto.apellido_paterno}"></td>
                                 <td th:text="${usuarioDto.email}"></td>
                                 <td>
                                     <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" data-id="##"><i class="bi bi-pencil-square"></i></button>
-                                    <a class="text-danger" href="#" onclick="return confirm ('¿Está seguro de eliminar este registro')"><i class="bi bi-trash-fill"></i></a>
+                                    <a class="text-danger" th:href="@{/usuarios/administradores/eliminar/{id}(id=${usuarioDto.id})}" onclick="return confirm ('¿Está seguro de eliminar este registro')"><i class="bi bi-trash-fill"></i></a>
                                 </td>
                             </tr>
-
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
@@ -74,39 +88,56 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitulo">Nuevo Usuario</h5>
+                    <h5 class="modal-title" id="modalTitulo">Editar Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" method="post" id="formulario">
-                    @csrf
+                <form action="#" method="post" id="formulario" enctype="multipart/form-data">
+
                     <div class="modal-body">
                         <div class="card-body">
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label  class="form-label">Nombres</label>
-                                    <input type="text" class="form-control" id="name"  name="name" value="" required>
+                                    <input type="text" class="form-control" id="nombre"  name="nombre" value="" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label  class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control" id="lastname" name="lastname" required>
+                                    <label  class="form-label">Apellido Paterno</label>
+                                    <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="form-label">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tipo Documento</label>
+                                    <select class="form-select" id="tipo_doc" name="tipo_doc" required>
+                                        <option value="1">DNI</option>
+                                        <option value="4">C.E.</option>
+                                        <option value="6">RUC</option>
+                                        <option value="7">Pasaporte</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="form-label">Número Documento</label>
+                                    <input type="text" class="form-control" id="num_doc" name="num_doc" required>
+                                    <span  class="form-label labelDni" style="display: none"></span>
                                 </div>
                                 <div class="col-md-12">
                                     <label  class="form-label">Email</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                                        <input type="text" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend2" required>
+                                        <input type="email" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend2" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label  class="form-label">Dni</label>
-                                    <input type="text" class="form-control" id="dni" name="dni" required>
-                                    <span  class="form-label labelDni" style="display: none"></span>
+                                    <label  class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="display: none">
                                     <label class="form-label">Role</label>
-                                    <select class="form-select" id="role" name="role" required>
+                                    <select class="form-select" id="role" name="rol" required>
                                         <option value="A">Administrador</option>
-                                        <option value="D">Doctor</option>
+                                        <option value="D">Veterinario</option>
                                         <option value="C">Cliente</option>
                                         <option value="E">Empleado</option>
                                     </select>
@@ -116,13 +147,10 @@
                                     <input type="text" class="form-control" id="telefono" name="telefono" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label  class="form-label">Contraseña</label>
-                                    <input type="text" class="form-control" id="password" name="password" required>
+                                    <label class="form-label">Fecha de nacimiento</label>
+                                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
                                 </div>
-                                <div class="col-md-12">
-                                    <label  class="form-label">Direccion</label>
-                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
-                                </div>
+
                                 <div class="col-md-6">
                                     <label  class="form-label">Sexo</label>
                                     <select class="form-select" id="sexo" name="sexo" required>
@@ -130,6 +158,15 @@
                                         <option value="M">Mujer</option>
                                     </select>
                                 </div>
+                                <div class="col-md-12">
+                                    <label  class="form-label">Foto</label>
+                                    <input type="file" class="form-control" id="imagen" name="imagen" >
+                                </div>
+                                <div class="col-md-12">
+                                    <label  class="form-label">Direccion</label>
+                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                </div>
+
                                 <div id="divEstado" class="col-md-6" style="display: none">
                                     <label  class="form-label">Estado</label>
                                     <select class="form-select" name="estado" id="estado">
@@ -196,14 +233,17 @@
 
         $('.btnCrear').click(function (){
             let val_tipo = $(this).data('id');
-            let val_url_store = '/usuarios/store';
+            let val_url_store = '/usuarios/administradores/store';
             $('#formulario').attr('action',val_url_store);
-            $('#modalTitulo').html('Crear Usuario');
-            $('#name').val('');
-            $('#lastname').val('');
+            $('#modalTitulo').html('Crear Administrador');
+            $('#nombre').val('');
+            $('#apellido_paterno').val('');
+            $('#apellido_materno').val('');
             $('#email').val('');
-            $('#dni').val('');
-            $('#role option:first').prop('selected',true);
+            $('#imagen').val('');
+            $('#fecha_nacimiento').val('');
+            $('#num_doc').val('');
+            $('#tipo_doc option:first').prop('selected',true);
             $('#divEstado').css('display','none');
             $('#sexo option:first').prop('selected',true);
             $('#password').attr('required',true);

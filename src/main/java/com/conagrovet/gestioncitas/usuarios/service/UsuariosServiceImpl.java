@@ -163,6 +163,11 @@ public class UsuariosServiceImpl implements UsuariosService {
         return listaMensaje;
     }
 
+    @Override
+    public UsuarioDto getUsuario(Integer id) {
+        return null;
+    }
+
     private UsuarioDto mapUsuarioToUsuarioDto(Usuario usuario) {
         UsuarioDto usuarioDto = new UsuarioDto();
         usuarioDto.setId(usuario.getId());

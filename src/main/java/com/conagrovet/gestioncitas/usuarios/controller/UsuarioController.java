@@ -84,8 +84,52 @@ public class UsuarioController {
     @GetMapping("/veterinarios")
     public String listaVeterinarios(Model model){
         var listaVeterinarios = service.listaVeterinariosActivos();
+
         model.addAttribute("listaUsuarios", listaVeterinarios);
         return "/admin/veterinarios/index";
+    }
+    @PostMapping("/veterinarios/store")
+    public String veterinariosStore(
+            @RequestParam("nombre") String nombre, @RequestParam("apellido_paterno") String apellido_paterno, @RequestParam("apellido_materno") String apellido_materno,
+            @RequestParam("tipo_doc") Integer tipo_doc, @RequestParam("num_doc") String num_doc,@RequestParam("email") String email, @RequestParam("password") String password,
+            @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,
+            @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes){
+
+        List<String> listaMensaje = service.verificarUsuario(email,num_doc);
+        if (listaMensaje.size() > 0){
+            for (String mensaje: listaMensaje ){
+                if (mensaje.equals("email")){
+                    redirectAttributes.addFlashAttribute("mensajeEmail", "El email  "+email+" ya ha sido registrado");
+                }else {
+                    redirectAttributes.addFlashAttribute("mensajeDocumento", "El documento "+num_doc+" ya ha sido registrado");
+                }
+            }
+
+        }else {
+            Boolean response = service.guardarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,'A','V');
+
+            if (response){
+                redirectAttributes.addFlashAttribute("mensajeOk", "¡El veterinario se ha registrado satisfactoriamente!");
+            }else {
+                redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido guardar!");
+            }
+        }
+
+        return "redirect:/usuarios/veterinarios";
+    }
+    @GetMapping("/veterinarios/eliminar/{id}")
+    public String veterinariosDelete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
+
+        Boolean response = service.eliminarUsuario(id);
+
+        if (response){
+            redirectAttributes.addFlashAttribute("mensajeOk", "¡El veterinario se ha eliminado satisfactoriamente!");
+        }else {
+            redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido eliminar!");
+
+        }
+
+        return "redirect:/usuarios/veterinarios";
     }
 
 
@@ -94,6 +138,49 @@ public class UsuarioController {
         var listaAdministradores = service.listaAdministradoresActivos();
         model.addAttribute("listaUsuarios", listaAdministradores);
         return "/admin/administradores/index";
+    }
+    @PostMapping("/administradores/store")
+    public String administradoresStore(
+            @RequestParam("nombre") String nombre, @RequestParam("apellido_paterno") String apellido_paterno, @RequestParam("apellido_materno") String apellido_materno,
+            @RequestParam("tipo_doc") Integer tipo_doc, @RequestParam("num_doc") String num_doc,@RequestParam("email") String email, @RequestParam("password") String password,
+            @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,
+            @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes){
+
+        List<String> listaMensaje = service.verificarUsuario(email,num_doc);
+        if (listaMensaje.size() > 0){
+            for (String mensaje: listaMensaje ){
+                if (mensaje.equals("email")){
+                    redirectAttributes.addFlashAttribute("mensajeEmail", "El email  "+email+" ya ha sido registrado");
+                }else {
+                    redirectAttributes.addFlashAttribute("mensajeDocumento", "El documento "+num_doc+" ya ha sido registrado");
+                }
+            }
+
+        }else {
+            Boolean response = service.guardarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,'A','A');
+
+            if (response){
+                redirectAttributes.addFlashAttribute("mensajeOk", "¡El administrador se ha registrado satisfactoriamente!");
+            }else {
+                redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido guardar!");
+            }
+        }
+
+        return "redirect:/usuarios/administradores";
+    }
+    @GetMapping("/administradores/eliminar/{id}")
+    public String administradoresDelete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
+
+        Boolean response = service.eliminarUsuario(id);
+
+        if (response){
+            redirectAttributes.addFlashAttribute("mensajeOk", "¡El Administrador se ha eliminado satisfactoriamente!");
+        }else {
+            redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido eliminar!");
+
+        }
+
+        return "redirect:/usuarios/administradores";
     }
 
 
