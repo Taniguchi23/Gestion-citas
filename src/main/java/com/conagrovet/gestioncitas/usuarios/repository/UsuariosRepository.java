@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface UsuariosRepository extends JpaRepository<Usuario,Integer> {
-    @Query("SELECT u FROM Usuario u ORDER BY u.id DESC ")
+    @Query("SELECT u FROM Usuario u  WHERE u.rol='V' and u.estado='A' ORDER BY u.id DESC ")
     List<Usuario> findVeterinariosActivos();
     @Query("SELECT u FROM Usuario u WHERE u.estado = 'A' and u.rol = 'C' ORDER BY u.id DESC ")
     List<Usuario> findClientesActivos();
