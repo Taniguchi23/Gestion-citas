@@ -13,6 +13,8 @@ import java.util.List;
 public interface MascotaRepository extends JpaRepository<Mascota,Integer> {
     @Query("SELECT m  FROM Mascota m  where  m.estado = 'A' ORDER BY m.id DESC ")
     List<Mascota> findMascotas();
+    @Query("SELECT m  FROM Mascota m  where  m.estado = 'A' and  m.usuario_id= :id ORDER BY m.id DESC ")
+    List<Mascota> findMascotasById(@Param("id") Integer id);
 
     @Query("SELECT m FROM Mascota m WHERE m.id = :id ")
     Mascota findFirstById(@Param("id") Integer id);

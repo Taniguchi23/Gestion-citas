@@ -52,6 +52,18 @@ public class MascotasServiceImpl implements MascotasService {
     }
 
     @Override
+    public List<MascotaResponseDto> getListMascotaById(Integer id) {
+        List<Mascota> listaMascotas = mascotaRepository.findMascotasById(id);
+        List<MascotaResponseDto> listaMascotasDto = new ArrayList<>();
+        MascotaResponseDto mascotaDto = new MascotaResponseDto();
+        for (Mascota m : listaMascotas ){
+            mascotaDto = this.mapMascotaDto(m,true);
+            listaMascotasDto.add(mascotaDto);
+        }
+        return listaMascotasDto;
+    }
+
+    @Override
     public Boolean saveMascota(String nombre, String usuario_id, String color, String tipo, String raza, Character sexo, Character esterilizado, Character estado, MultipartFile imagen, Date fecha_nacimiento, Double peso) {
         Usuario usuario = usuariosRepository.findFirstByDocumento(usuario_id);
 

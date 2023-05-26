@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/app}">
+
+<div layout:fragment="content">
+
+    <div class="pagetitle">
+        <h1>Mascotas</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                <li class="breadcrumb-item active"> Mascotas</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <div class="row justify-content-between">
+                                <div class="col-4">
+                                    <h5 class="card-title mt-2 ml-2">Lista de mascotas</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table with stripped rows -->
+                        <table class="table datatable" id="tabla">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+                            <tr th:each="mascotaDto, key : ${listaMascotas}">
+                                <th scope="row" th:text="${key.index + 1}"></th>
+                                <td th:text="${mascotaDto.tipo}"></td>
+                                <td th:text="${mascotaDto.nombre}"></td>
+                                <td> <img class="img-fluid rounded-circle" style="width: 110px" th:src="@{'/uploads/mascota/'+${mascotaDto.imagen}}" ></td>
+                                <td th:text="${#strings.equals(mascotaDto.estado, 'A') ? 'Activo' : 'Inactivo'}"></td>
+                                <td>
+                                    <a class="text-danger" th:href="@{/clientes/mascotas/ver/{id}(id=${mascotaDto.id})}"><i class="bi bi-trash-fill"></i></a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+    <div layout:fragment="script">
+
+
+
+</div>
+
+</html>
