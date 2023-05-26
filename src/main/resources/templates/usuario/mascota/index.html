@@ -41,8 +41,6 @@
                             </tr>
                             </thead>
                             <tbody>
-
-
                             <tr th:each="mascotaDto, key : ${listaMascotas}">
                                 <th scope="row" th:text="${key.index + 1}"></th>
                                 <td th:text="${mascotaDto.tipo}"></td>
@@ -57,7 +55,6 @@
                             </tbody>
                         </table>
                         <!-- End Table with stripped rows -->
-
                     </div>
                 </div>
 
