@@ -162,6 +162,35 @@ public class UsuarioController {
 
         return "redirect:/usuarios/veterinarios";
     }
+    @PostMapping("/veterinarios/update/{id}")
+    public String veterinariosUpdate(
+            @RequestParam("nombre") String nombre, @RequestParam("apellido_paterno") String apellido_paterno, @RequestParam("apellido_materno") String apellido_materno,
+            @RequestParam("tipo_doc") Integer tipo_doc, @RequestParam("num_doc") String num_doc,@RequestParam("email") String email, @RequestParam("password") String password,
+            @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,@RequestParam("rol") Character rol,@RequestParam("estado") Character estado,
+            @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes,@PathVariable("id") String id){
+
+        List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc,"U",Integer.parseInt(id));
+        if (listaMensaje.size() > 0){
+            for (String mensaje: listaMensaje ){
+                if (mensaje.equals("email")){
+                    redirectAttributes.addFlashAttribute("mensajeEmail", "El email  "+email+" ya ha sido registrado");
+                }else {
+                    redirectAttributes.addFlashAttribute("mensajeDocumento", "El documento "+num_doc+" ya ha sido registrado");
+                }
+            }
+
+        }else {
+            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,rol,Integer.parseInt(id));
+
+            if (response){
+                redirectAttributes.addFlashAttribute("mensajeOk", "¡El veterinario se ha actualizado satisfactoriamente!");
+            }else {
+                redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido actualizar!");
+            }
+        }
+
+        return "redirect:/usuarios/veterinarios";
+    }
 
 
     @GetMapping("/administradores")
@@ -209,6 +238,35 @@ public class UsuarioController {
         }else {
             redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido eliminar!");
 
+        }
+
+        return "redirect:/usuarios/administradores";
+    }
+    @PostMapping("/administradores/update/{id}")
+    public String administradoresUpdate(
+            @RequestParam("nombre") String nombre, @RequestParam("apellido_paterno") String apellido_paterno, @RequestParam("apellido_materno") String apellido_materno,
+            @RequestParam("tipo_doc") Integer tipo_doc, @RequestParam("num_doc") String num_doc,@RequestParam("email") String email, @RequestParam("password") String password,
+            @RequestParam("telefono") String telefono, @RequestParam("sexo") Character sexo,@RequestParam("rol") Character rol,@RequestParam("estado") Character estado,
+            @RequestParam("fecha_nacimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes,@PathVariable("id") String id){
+
+        List<String> listaMensaje = usuariosService.verificarUsuario(email,num_doc,"U",Integer.parseInt(id));
+        if (listaMensaje.size() > 0){
+            for (String mensaje: listaMensaje ){
+                if (mensaje.equals("email")){
+                    redirectAttributes.addFlashAttribute("mensajeEmail", "El email  "+email+" ya ha sido registrado");
+                }else {
+                    redirectAttributes.addFlashAttribute("mensajeDocumento", "El documento "+num_doc+" ya ha sido registrado");
+                }
+            }
+
+        }else {
+            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,rol,Integer.parseInt(id));
+
+            if (response){
+                redirectAttributes.addFlashAttribute("mensajeOk", "¡El administrador se ha actualizado satisfactoriamente!");
+            }else {
+                redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido actualizar!");
+            }
         }
 
         return "redirect:/usuarios/administradores";

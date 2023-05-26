@@ -11,4 +11,8 @@ public class ClienteController {
     public String index(){
         return "/usuario/index";
     }
+    @GetMapping("/mascotas")
+    public String listaMascotas(){
+        
+    }
 }
