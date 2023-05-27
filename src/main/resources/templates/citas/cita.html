@@ -20,7 +20,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title text-center">Conagrovet : Cita N° <p th:text="${citaDetalleDto.id}"></p></h5>
+                <h5 class="card-title text-center">Conagrovet : Cita N° <p></p></h5>
 
                 <!-- General Form Elements -->
                 <form action="/citas/detalle/store" method="POST">
@@ -28,41 +28,41 @@
                     <div class="row mb-3">
                         <label  class="col-sm-2 col-form-label">Propietario</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" value="" readonly th:text="${citaDetalleDto.nombre}">
+                            <input type="text" class="form-control" value="" readonly >
                         </div>
                         <label  class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-4">
-                            <input type="email" class="form-control" value="" readonly th:text="${citaDetalleDto.email}">
+                            <input type="email" class="form-control" value="" readonly >
                         </div>
                     </div>
-                    <h5 class="card-title text-center">Datos de <label th:text="${citaDetalleDto.nombre_mascota}"></label> (<span th:text="${citaDetalleDto.tipo}"></span>)</h5>
+                    <h5 class="card-title text-center">Datos de <label ></label> (<span ></span>)</h5>
                     <div class="row mb-3">
                         <div class="col-sm-3">
                             <label>Raza</label>
-                            <input type="text" class="form-control" value="" readonly th:text="${citaDetalleDto.raza}">
+                            <input type="text" class="form-control" value="" readonly >
                         </div>
                         <div class="col-sm-3">
                             <label>Color</label>
-                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.color}" readonly>
+                            <input type="text" class="form-control" value=""  readonly>
                         </div>
                         <div class="col-sm-3">
                             <label>Esterilizado</label>
-                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.esterilizado}" readonly>
+                            <input type="text" class="form-control" value=""  readonly>
                         </div>
                         <div class="col-sm-3">
                             <label >Sexo</label>
-                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.sexo}" readonly>
+                            <input type="text" class="form-control" value=""  readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-3">
                             <label >Peso</label>
-                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.peso}"  readonly>
+                            <input type="text" class="form-control" value=""  readonly>
                         </div>
 
                         <div class="col-sm-3">
                             <label >Fecha de Nacimiento</label>
-                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.peso}"  readonly>
+                            <input type="text" class="form-control" value=""   readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
