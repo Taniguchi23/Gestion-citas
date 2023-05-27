@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/app}">
+
+<div layout:fragment="content">
+
+    <div class="pagetitle">
+        <h1>Citas</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                <li class="breadcrumb-item">Registros</li>
+                <li class="breadcrumb-item active">Citas</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div th:if="${mensajeOk!=null}"   class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeOk}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeError!=null}"   class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeError}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeEmail!=null}"   class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeEmail}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${mensajeDocumento!=null}"   class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p th:text="${mensajeDocumento}"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <div class="row justify-content-between">
+                                <div class="col-4">
+                                    <h5 class="card-title mt-2 ml-2">Lista de Citas</h5>
+                                </div>
+
+                                <div class="mt-4 col-2">
+                                    <button class="btn btn-success btnCrear" data-id="#" data-bs-toggle="modal" data-bs-target="#modalDatos">Crear Cita</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table with stripped rows -->
+                        <table class="table datatable" id="tabla">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Cita</th>
+                                <th scope="col">Mascota</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="responseCitaDto, key : ${listaReponseCitaDto}">
+                                <th scope="row" th:text="${key.index +1}"></th>
+                                <td th:text="${responseCitaDto.detalles}"></td>
+                                <td th:text="${responseCitaDto.nombre}"></td>
+                                <td th:text="${responseCitaDto.fecha_cita_string}"></td>
+                                <td ><span th:class="${#strings.equals(responseCitaDto.estado,'P') ? 'btn btn-secondary' : (#strings.equals(responseCitaDto.estado,'T') ? 'btn btn-success': 'btn btn-damger')}" th:text="${#strings.equals(responseCitaDto.estado,'P') ? 'Pendiente' : (#strings.equals(responseCitaDto.estado,'T') ? 'Terminado': 'Eliminado')}"></span></td>
+
+                                <td>
+                                    <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" th:data-id="${responseCitaDto.id}" ><i class="bi bi-pencil-square"></i></button>
+                                    <a class="text-danger" th:href="@{/citas/{id}(id=${responseCitaDto.id})}" ><i class="bi bi-trash-fill"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalDatos" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo">Editar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="#" method="post" id="formulario" enctype="multipart/form-data">
+
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label  class="form-label">Usuario: Número de documento</label>
+                                    <input type="text" class="form-control" id="num_doc"  name="num_doc" value="" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Paciente</label>
+                                    <select class="form-select" id="mascota_id" name="mascota_id" required>
+                                        <option value="1">No hay mascotas registradas...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="form-label">Cita</label>
+                                    <input type="text" class="form-control" id="contexto" name="contexto" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="form-label">Descripción</label>
+                                    <input type="text" class="form-control" id="detalles" name="detalles" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de Programación</label>
+                                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                                </div>
+                                <div id="divEstado" class="col-md-6" style="display: none">
+                                    <label  class="form-label">Estado</label>
+                                    <select class="form-select" name="estado" id="estado">
+                                        <option value="A">Activo</option>
+                                        <option value="I">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary btnGuardar">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <div layout:fragment="script">
+    <script type="text/javascript">
+
+        $('#tabla').on('click','.btnEditar',function (){
+            let val_id = $(this).data('id');
+            let val_url = '/api/usuarios/edit/'+val_id;
+            let val_url_update = '/usuarios/clientes/update/'+val_id;
+            $.get(val_url, function (res){
+                if (res.estado == "ok"){
+                console.log(res)
+                $('#formulario').attr('action',val_url_update);
+                $('#modalTitulo').html('Editar Usuario');
+                $('#nombre').val(res.usuarioDto.nombre);
+                $('#apellido_paterno').val(res.usuarioDto.apellido_paterno);
+                $('#apellido_materno').val(res.usuarioDto.apellido_materno);
+                $('#email').val(res.usuarioDto.email);
+                $('#imagen').val('');
+                $('#fecha_nacimiento').val(res.usuarioDto.fecha_nacimiento_string);
+                $('#num_doc').val(res.usuarioDto.num_doc);
+                $('#tipo_doc').val(res.usuarioDto.tipo_doc);
+                $('#divEstado').css('display','block');
+                $('#divImagen').css('display','block');
+                $('#divImagen img').attr('src',"/uploads/avatar/"+res.usuarioDto.imagen);
+                $('#sexo').val(res.usuarioDto.sexo);
+                $('#password').attr('required',false);
+                $('#password').val('');
+                $('#telefono').val(res.usuarioDto.telefono);
+                $('.btnGuardar').html('Editar');
+                $('#modalDatos').modal('show');
+                }else {
+                    alert("Error en el servidor")
+                }
+            });
+        });
+
+
+        $('#num_doc').keyup(function () {
+            let documento =  $(this).val();
+            let url = "/api/usuarios/mascotas/"+documento;
+            $.get(url, function (res){
+                if (res.estado=="ok"){
+                    $('.btnGuardar').html('Guardar').prop('disabled', false);
+                    $('#num_doc').removeClass("border border-danger");
+                    $('#num_doc').addClass("border border-success");
+
+                }else {
+                    $('.btnGuardar').html('Guardar').prop('disabled', true);
+                    $('#num_doc').removeClass(" border border-success");
+                    $('#num_doc').addClass("border border-danger");
+                }
+            });
+        });
+
+        $('.btnCrear').click(function (){
+            let val_tipo = $(this).data('id');
+            let val_url_store = '/usuarios/clientes/store';
+            $('#formulario').attr('action',val_url_store);
+            $('#modalTitulo').html('Crear Cliente');
+            $('#nombre').val('');
+            $('#apellido_paterno').val('');
+            $('#apellido_materno').val('');
+            $('#email').val('');
+            $('#imagen').val('');
+            $('#fecha_nacimiento').val('');
+            $('#num_doc').val('');
+            $('#tipo_doc option:first').prop('selected',true);
+            $('#divEstado').css('display','none');
+            $('#divImagen').css('display','none');
+            $('#divImagen img').attr('src','')
+            $('#sexo option:first').prop('selected',true);
+            $('#password').attr('required',true);
+            $('#telefono').val('');
+            $('#direccion').val('');
+            $('.btnGuardar').html('Guardar');
+            $('#modalDatos').modal('show');
+        });
+    </script>
+
+
+</div>
+
+</html>

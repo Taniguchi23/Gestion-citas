@@ -41,7 +41,7 @@
                                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Vista General</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Historial</button>
+                                <button class="nav-link btnHistorial" th:data-id="${mascotaDto.id}" data-bs-toggle="tab" data-bs-target="#profile-edit">Historial</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2">
@@ -87,7 +87,7 @@
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-
+                                <div class="contenedor-cards"></div>
 
                             </div>
 
@@ -101,5 +101,46 @@
             </div>
         </div>
     </section>
+</div>
+<div layout:fragment="script">
+    <script type="text/javascript">
+
+        $('.btnHistorial').click(function (){
+            let val_id = $(this).data('id');
+            let url = "/api/citas/"+ val_id;
+            $.get(url, function (res){
+                console.log(res)
+                if (res.length  > 0){
+                    res.forEach(function(dato) {
+                        if (dato.estado == 'P'){
+                            var card = '<div class="card">';
+                        }else if (dato.estado == 'T'){
+                            var card = '<div class="card">';
+                        }else{
+                            var card = '<div class="card">';
+                        }
+                        card += '<div class="card-body">';
+                        card += '<h5 class="card-title">' + dato.contexto + '</h5>';
+                        card += '<p class="card-text">' + dato.detalles + '</p>';
+                        card += '<p class="card-text">' + dato.fecha_cita_string + '</p>';
+                        if (dato.estado == 'T'){
+                            card += '<button class="btn btn-info text-center" data-id="'+ dato.id+'">Ver Cita</button>';
+                        }
+
+                        card += '</div>';
+                        card += '</div>';
+
+                        // Agregar la card al contenedor deseado
+                        $('.contenedor-cards').append(card);
+                    });
+                }else {
+                    let html = `<p class="text-center text-secondary"> No hay registros en su historial.</p>`
+                }
+
+
+
+            });
+        });
+    </script>
 </div>
 </html>

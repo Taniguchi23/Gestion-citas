@@ -27,7 +27,7 @@ public class ResponseCitaDto {
 
     private String contexto;
     private String detalles;
-    private LocalDateTime fecha_cita;
+    private Date fecha_cita;
     private String fecha_cita_string;
     private Character estado;
     private Double peso;

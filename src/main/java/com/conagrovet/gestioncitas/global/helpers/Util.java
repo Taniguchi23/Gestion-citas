@@ -75,13 +75,14 @@ public class Util {
         ResponseCitaDto responseCitaDto = new ResponseCitaDto();
         responseCitaDto.setId(cita.getId());
         responseCitaDto.setContexto(cita.getContexto());
+        responseCitaDto.setEstado(cita.getEstado());
         responseCitaDto.setDetalles(cita.getDetalles());
         responseCitaDto.setF_cardiaca(cita.getF_cardiaca());
         responseCitaDto.setF_respiratoria(cita.getF_respiratoria());
         responseCitaDto.setPeso(cita.getPeso());
         responseCitaDto.setFecha_cita(cita.getFecha_cita());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        LocalDateTime fecha = cita.getFecha_cita();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        Date fecha = cita.getFecha_cita();
         String fechaFormateada = dateFormat.format(fecha);
         responseCitaDto.setFecha_cita_string(fechaFormateada);
         responseCitaDto.setMascota_id(mascota.getId());

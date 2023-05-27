@@ -64,6 +64,20 @@ public class MascotasServiceImpl implements MascotasService {
     }
 
     @Override
+    public List<MascotaResponseDto> getListMascotaByDocumento(String num_doc) {
+        Usuario usuario = usuariosRepository.findFirstByDocumento(num_doc);
+
+        List<Mascota> listaMascotas = mascotaRepository.findMascotasById(usuario.getId());
+        List<MascotaResponseDto> listaMascotasDto = new ArrayList<>();
+        MascotaResponseDto mascotaDto = new MascotaResponseDto();
+        for (Mascota m : listaMascotas ){
+            mascotaDto = this.mapMascotaDto(m,true);
+            listaMascotasDto.add(mascotaDto);
+        }
+        return listaMascotasDto;
+    }
+
+    @Override
     public Boolean saveMascota(String nombre, String usuario_id, String color, String tipo, String raza, Character sexo, Character esterilizado, Character estado, MultipartFile imagen, Date fecha_nacimiento, Double peso) {
         Usuario usuario = usuariosRepository.findFirstByDocumento(usuario_id);
 
@@ -195,7 +209,7 @@ public class MascotasServiceImpl implements MascotasService {
         mascotaDto.setEsterilizado(mascota.getEsterilizado());
         mascotaDto.setEstado(mascota.getEstado());
         mascotaDto.setFecha_nacimiento(mascota.getFecha_nacimiento());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date fecha = mascota.getFecha_nacimiento();
         String fechaFormateada = dateFormat.format(fecha);
         mascotaDto.setFecha_nacimiento_string(fechaFormateada);

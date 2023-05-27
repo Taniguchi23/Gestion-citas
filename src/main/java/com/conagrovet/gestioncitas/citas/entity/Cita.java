@@ -17,7 +17,7 @@ public class Cita {
     private Integer mascota_id;
     private String contexto;
     private String detalles;
-    private LocalDateTime fecha_cita;
+    private Date fecha_cita;
     private Character estado;
     private Double peso;
     private String f_cardiaca;

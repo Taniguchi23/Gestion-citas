@@ -46,7 +46,7 @@
                                 <td th:text="${mascotaDto.tipo}"></td>
                                 <td th:text="${mascotaDto.nombre}"></td>
                                 <td> <img class="img-fluid rounded-circle" style="width: 110px" th:src="@{'/uploads/mascota/'+${mascotaDto.imagen}}" ></td>
-                                <td th:text="${#strings.equals(mascotaDto.estado, 'A') ? 'Activo' : 'Inactivo'}"></td>
+                                <td ><span th:class="${#strings.equals(mascotaDto.estado, 'A') ? 'btn btn-success' : 'btn btn-secondary'}" th:text="${#strings.equals(mascotaDto.estado, 'A') ? 'Activo' : 'Fallecido'}"></span></td>
                                 <td>
                                     <a class="text-danger" th:href="@{/clientes/mascotas/ver/{id}(id=${mascotaDto.id})}"><i class="ri-eye-fill text-success"></i></a>
                                 </td>
