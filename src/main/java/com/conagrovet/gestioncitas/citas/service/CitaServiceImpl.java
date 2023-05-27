@@ -75,7 +75,7 @@ public class CitaServiceImpl implements CitaService{
            cita.setContexto(contexto);
            cita.setDetalles(detalles);
            cita.setFecha_cita(fecha_cita);
-           cita.setEstado(estado);
+           cita.setEstado('P');
            cita.setPeso(peso);
            cita.setF_cardiaca(f_cardiaca);
            cita.setF_respiratoria(f_respiratoria);

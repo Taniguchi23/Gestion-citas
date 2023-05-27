@@ -81,7 +81,7 @@ public class Util {
         responseCitaDto.setF_respiratoria(cita.getF_respiratoria());
         responseCitaDto.setPeso(cita.getPeso());
         responseCitaDto.setFecha_cita(cita.getFecha_cita());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date fecha = cita.getFecha_cita();
         String fechaFormateada = dateFormat.format(fecha);
         responseCitaDto.setFecha_cita_string(fechaFormateada);
