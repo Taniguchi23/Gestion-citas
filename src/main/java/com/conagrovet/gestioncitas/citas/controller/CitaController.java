@@ -35,13 +35,19 @@ public class CitaController {
         return "/citas/cita";
     }
 
+    @GetMapping("/historial")
+    public String getHistorial( Model model){
+
+        return "/citas/historial";
+    }
+
     @PostMapping("/store")
     public String clientesStore(
-            @RequestParam("contexto") String contexto, @RequestParam("detalles") String detalles, @RequestParam("peso") Double peso,
-            @RequestParam("f_cardiaca") String f_cardiaca, @RequestParam("f_respiratoria") String f_respiratoria, @RequestParam("mascota_id") String mascota_id,
-            @RequestParam("fecha_cita") @DateTimeFormat(pattern = "yyyy-MM-dd H:i:s") Date fecha, RedirectAttributes redirectAttributes){
+            @RequestParam("contexto") String contexto, @RequestParam("detalles") String detalles
+            , @RequestParam("mascota_id") String mascota_id,
+            @RequestParam("fecha_cita") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha, RedirectAttributes redirectAttributes){
 
-        Boolean response = citaService.saveCita(Integer.parseInt(mascota_id),contexto,detalles,fecha,'A',peso,f_cardiaca,f_respiratoria);
+        Boolean response = citaService.saveCita(Integer.parseInt(mascota_id),contexto,detalles,fecha,'P',0.0,"","");
         if (response){
             redirectAttributes.addFlashAttribute("mensajeOk", "¡Cita  se ha creado correctamente!");
         }else {
