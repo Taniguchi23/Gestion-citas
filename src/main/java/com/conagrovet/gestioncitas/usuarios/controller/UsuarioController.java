@@ -98,7 +98,7 @@ public class UsuarioController {
             }
 
         }else {
-            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,rol,Integer.parseInt(id));
+            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,'C',Integer.parseInt(id));
 
             if (response){
                 redirectAttributes.addFlashAttribute("mensajeOk", "¡El cliente se ha actualizado satisfactoriamente!");
@@ -180,7 +180,7 @@ public class UsuarioController {
             }
 
         }else {
-            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,rol,Integer.parseInt(id));
+            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,'V',Integer.parseInt(id));
 
             if (response){
                 redirectAttributes.addFlashAttribute("mensajeOk", "¡El veterinario se ha actualizado satisfactoriamente!");
@@ -260,7 +260,7 @@ public class UsuarioController {
             }
 
         }else {
-            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,rol,Integer.parseInt(id));
+            Boolean response = usuariosService.actualizarUsuario(nombre,apellido_paterno,apellido_materno,tipo_doc,num_doc,email,password,telefono,sexo,fecha,imagen,estado,'A',Integer.parseInt(id));
 
             if (response){
                 redirectAttributes.addFlashAttribute("mensajeOk", "¡El administrador se ha actualizado satisfactoriamente!");
