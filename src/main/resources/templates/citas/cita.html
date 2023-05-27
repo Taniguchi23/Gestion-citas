@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/app}">
+
+<div layout:fragment="content">
+
+    <div class="pagetitle">
+        <h1>Formulario de Cita</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/citas">Inicio</a></li>
+                <li class="breadcrumb-item">Pacientes</li>
+                <li class="breadcrumb-item active">Cita</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Conagrovet : Cita N° <p th:text="${citaDetalleDto.id}"></p></h5>
+
+                <!-- General Form Elements -->
+                <form action="/citas/detalle/store" method="POST">
+
+                    <div class="row mb-3">
+                        <label  class="col-sm-2 col-form-label">Propietario</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" value="" readonly th:text="${citaDetalleDto.nombre}">
+                        </div>
+                        <label  class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-4">
+                            <input type="email" class="form-control" value="" readonly th:text="${citaDetalleDto.email}">
+                        </div>
+                    </div>
+                    <h5 class="card-title text-center">Datos de <label th:text="${citaDetalleDto.nombre_mascota}"></label> (<span th:text="${citaDetalleDto.tipo}"></span>)</h5>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label>Raza</label>
+                            <input type="text" class="form-control" value="" readonly th:text="${citaDetalleDto.raza}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Color</label>
+                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.color}" readonly>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Esterilizado</label>
+                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.esterilizado}" readonly>
+                        </div>
+                        <div class="col-sm-3">
+                            <label >Sexo</label>
+                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.sexo}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label >Peso</label>
+                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.peso}"  readonly>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label >Fecha de Nacimiento</label>
+                            <input type="text" class="form-control" value="" th:text="${citaDetalleDto.peso}"  readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label >Peso Kg.</label>
+                            <input type="number" min="0.001" step="0.01" class="form-control" name="peso" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label >Frec. Cardiaca (1min) </label>
+                            <input type="text"  class="form-control" name="f_cardiaca" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label >Frec. Respiratoria (1min)</label>
+                            <input type="text"  class="form-control" name="f_respiratoria" required>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <label  class="col-sm-2 col-form-label">Diagnóstico</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" style="height: 100px" required name="diagnostico"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Guardar Cita</button>
+                        </div>
+                    </div>
+
+                </form><!-- End General Form Elements -->
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+</html>

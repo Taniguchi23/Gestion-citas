@@ -106,6 +106,7 @@
     <script type="text/javascript">
 
         $('.btnHistorial').click(function (){
+            $('.contenedor-cards').html('');
             let val_id = $(this).data('id');
             let url = "/api/citas/"+ val_id;
             $.get(url, function (res){
