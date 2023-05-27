@@ -13,5 +13,6 @@ public interface CitaService {
     Boolean saveCita(Integer mascota_id, String contexto, String detalles, Date fecha_cita, Character estado, Double peso, String f_cardiaca, String f_respiratoria);
     Boolean updateCita(Integer id,Integer mascota_id, String contexto, String detalles, Date fecha_cita, Character estado, Double peso, String f_cardiaca, String f_respiratoria);
 
+    Boolean saveCitaDetalle(Integer id, Double peso, String f_cardiaca, String f_respiratoria, String detalle);
 
 }

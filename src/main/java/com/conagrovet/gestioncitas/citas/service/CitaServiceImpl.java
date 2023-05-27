@@ -2,11 +2,15 @@ package com.conagrovet.gestioncitas.citas.service;
 
 import com.conagrovet.gestioncitas.citas.dto.ResponseCitaDto;
 import com.conagrovet.gestioncitas.citas.entity.Cita;
+import com.conagrovet.gestioncitas.citas.entity.Detalle;
 import com.conagrovet.gestioncitas.citas.repository.CitasRepository;
+import com.conagrovet.gestioncitas.citas.repository.DetallesRepository;
 import com.conagrovet.gestioncitas.global.helpers.Util;
 import com.conagrovet.gestioncitas.mascotas.dto.MascotaResponseDto;
 import com.conagrovet.gestioncitas.mascotas.entity.Mascota;
 import com.conagrovet.gestioncitas.mascotas.repository.MascotaRepository;
+import com.conagrovet.gestioncitas.usuarios.entity.Usuario;
+import com.conagrovet.gestioncitas.usuarios.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,12 @@ public class CitaServiceImpl implements CitaService{
 
     @Autowired
     private MascotaRepository mascotaRepository;
+
+    @Autowired
+    private UsuariosRepository usuariosRepository;
+
+    @Autowired
+    private DetallesRepository detallesRepository;
     @Override
     public List<ResponseCitaDto> getCitas() {
 
@@ -63,7 +73,13 @@ public class CitaServiceImpl implements CitaService{
     public ResponseCitaDto getCita(Integer id) {
         Cita cita = citasRepository.findFirstById(id);
         Mascota m = mascotaRepository.findFirstById(cita.getMascota_id());
+        Usuario usuario = usuariosRepository.findById(m.getUsuario_id()).orElse(null);
         ResponseCitaDto responseCitaDto = Util.mapCitaToCitaDto(cita,m);
+        if (usuario!=null){
+            responseCitaDto.setM_nombre(usuario.getNombre());
+            responseCitaDto.setM_email(usuario.getEmail());
+        }
+
         return responseCitaDto;
     }
 
@@ -103,6 +119,28 @@ public class CitaServiceImpl implements CitaService{
         }catch (Exception e){
             return  false;
         }
+    }
+
+    @Override
+    public Boolean saveCitaDetalle(Integer id, Double peso, String f_cardiaca, String f_respiratoria, String detalle) {
+      try {
+          Cita cita = citasRepository.findFirstById(id);
+          Mascota mascota = mascotaRepository.findFirstById(cita.getMascota_id());
+          cita.setF_respiratoria(f_respiratoria);
+          cita.setF_cardiaca(f_cardiaca);
+          cita.setEstado('T');
+          cita.setPeso(peso);
+          Detalle detalleTemp = new Detalle();
+          detalleTemp.setCita_id(id);
+          detalleTemp.setDescripcion(detalle);
+          citasRepository.save(cita);
+          mascota.setPeso(peso);
+          mascotaRepository.save(mascota);
+          detallesRepository.save(detalleTemp);
+          return true;
+      }catch (Exception e){
+          return false;
+      }
     }
 
 

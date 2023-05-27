@@ -10,8 +10,8 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                <li class="breadcrumb-item">Registros</li>
-                <li class="breadcrumb-item active">Citas</li>
+                <li class="breadcrumb-item"><a href="/citas">Cita</a></li>
+                <li class="breadcrumb-item active">Atención</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -39,7 +39,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="col-md-12">
-                            <div class="row justify-content-between">
+                                                       <div class="row justify-content-between">
                                 <div class="col-4">
                                     <h5 class="card-title mt-2 ml-2">Lista de Citas</h5>
                                 </div>
@@ -69,13 +69,12 @@
                                 <td th:text="${responseCitaDto.nombre}"></td>
                                 <td th:text="${responseCitaDto.fecha_cita_string}"></td>
                                 <td ><span th:class="${#strings.equals(responseCitaDto.estado,'P') ? 'btn btn-secondary' : (#strings.equals(responseCitaDto.estado,'T') ? 'btn btn-success': 'btn btn-damger')}" th:text="${#strings.equals(responseCitaDto.estado,'P') ? 'Pendiente' : (#strings.equals(responseCitaDto.estado,'T') ? 'Terminado': 'Eliminado')}"></span></td>
-
                                 <td th:if="${#strings.equals(responseCitaDto.estado,'P')}">
                                     <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" th:data-id="${responseCitaDto.id}" ><i class="bi bi-pencil-square"></i></button>
                                     <a class="text-danger" th:href="@{/citas/{id}(id=${responseCitaDto.id})}" ><i class="bi bi-play-circle-fill"></i></a>
                                 </td>
                                 <td th:if="${#strings.equals(responseCitaDto.estado,'T')}">
-                                    <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary btnEditar" th:data-id="${responseCitaDto.id}" ><i class="ri-eye-fill text-success"></i></button>
+                                    <a class="text-danger" th:href="@{/citas/{id}(id=${responseCitaDto.id})}" >  <button type="button" data-bs-target="#modalDatos" data-bs-toggle="modal" class="btn btn-m text-primary " th:data-id="${responseCitaDto.id}" ><i class="ri-eye-fill text-success"></i></button></a>
 
                                 </td>
                                 <td th:if="${#strings.equals(responseCitaDto.estado,'E')}">

@@ -33,4 +33,8 @@ public class ResponseCitaDto {
     private Double peso;
     private String f_cardiaca;
     private String f_respiratoria;
+
+
+    private String m_nombre;
+    private String m_email;
 }

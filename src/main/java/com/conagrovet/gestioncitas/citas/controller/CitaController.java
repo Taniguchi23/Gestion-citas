@@ -2,6 +2,7 @@ package com.conagrovet.gestioncitas.citas.controller;
 
 import com.conagrovet.gestioncitas.citas.dto.ResponseCitaDto;
 import com.conagrovet.gestioncitas.citas.service.CitaService;
+import com.conagrovet.gestioncitas.mascotas.entity.Mascota;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -68,6 +69,17 @@ public class CitaController {
         }else {
             redirectAttributes.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido actualizar la cita!");
         }
+        return "redirect:/citas";
+    }
+
+    @PostMapping("/detalle/store")
+    public String saveCitaDetalle(@RequestParam("id") String id,@RequestParam("f_cardiaca") String f_cardiaca, @RequestParam("f_respiratoria") String f_respiratoria,@RequestParam("diagnostico") String diagnostico,@RequestParam("peso") Double peso,RedirectAttributes redirectAttribute){
+    Boolean response = citaService.saveCitaDetalle(Integer.parseInt(id),peso,f_cardiaca, f_respiratoria,diagnostico);
+        if (response){
+            redirectAttribute.addFlashAttribute("mensajeOk", "¡Cita  atentida correctamente!");
+    }else {
+            redirectAttribute.addFlashAttribute("mensajeError", "¡Ha ocurrido un error y no se podido actualizar la cita!");
+    }
         return "redirect:/citas";
     }
 }
