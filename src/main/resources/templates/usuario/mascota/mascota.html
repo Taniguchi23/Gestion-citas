@@ -125,7 +125,7 @@
                         card += '<p class="card-text">' + dato.detalles + '</p>';
                         card += '<p class="card-text">' + dato.fecha_cita_string + '</p>';
                         if (dato.estado == 'T'){
-                            card += '<button class="btn btn-info text-center" data-id="'+ dato.id+'">Ver Cita</button>';
+                            card += '<a href="/clientes/mascotas/cita/'+dato.id+'"><button class="btn btn-info text-center" data-id="'+ dato.id+'">Ver Cita</button></a>';
                         }
 
                         card += '</div>';

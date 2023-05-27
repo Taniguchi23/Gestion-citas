@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/app}">
+
+<div layout:fragment="content">
+
+    <div class="pagetitle">
+        <h1>Formulario de Cita</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/citas">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="/citas"></a>Registros</li>
+                <li class="breadcrumb-item"><a href="/citas"></a>Lista de citas</li>
+                <li class="breadcrumb-item active">Atención</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Conagrovet : Cita N° <label th:text="${reponseCitaDto.id}"></label></h5>
+
+                <!-- General Form Elements -->
+                <form action="/citas/detalle/store" method="POST">
+
+                    <input type="hidden" th:value="${reponseCitaDto.id}" name="id">
+                    <div class="row mb-3">
+                        <label  class="col-sm-2 col-form-label">Propietario</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" value="" readonly th:value="${reponseCitaDto.m_nombre}">
+                        </div>
+                        <label  class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-4">
+                            <input type="email" class="form-control" value="" readonly th:value="${reponseCitaDto.m_email}" >
+                        </div>
+                    </div>
+                    <h5 class="card-title text-center">Datos de <label th:text="${reponseCitaDto.nombre}" ></label> </h5>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label>Raza</label>
+                            <input type="text" class="form-control" value="" readonly th:value="${reponseCitaDto.raza}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Color</label>
+                            <input type="text" class="form-control" value=""  readonly th:value="${reponseCitaDto.color}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Esterilizado</label>
+                            <input type="text" class="form-control" value="" th:value="${#strings.equals(reponseCitaDto.esterilizado,'S')?'Si':'No'}" readonly>
+                        </div>
+                        <div class="col-sm-3">
+                            <label >Sexo</label>
+                            <input type="text" class="form-control" value="" th:value="${#strings.equals(reponseCitaDto.sexo,'M')?'Macho':'Hembra'}"  readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label >Peso Kg.</label>
+                            <input type="text" class="form-control" value="" th:value="${reponseCitaDto.peso}" readonly>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label >Fecha de Nacimiento</label>
+                            <input type="text" class="form-control" value=""  th:value="${reponseCitaDto.fecha_cita_string}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label >Peso Kg.</label>
+                            <input type="number"  step="0.01" class="form-control" name="peso" required th:value="${reponseCitaDto.peso}" th:disabled="${#strings.equals(reponseCitaDto.estado,'T')}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label >Frec. Cardiaca (1min) </label>
+                            <input type="text"  class="form-control" name="f_cardiaca" required th:value="${reponseCitaDto.f_cardiaca}" th:disabled="${#strings.equals(reponseCitaDto.estado,'T')}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label >Frec. Respiratoria (1min)</label>
+                            <input type="text"  class="form-control" name="f_respiratoria" required th:value="${reponseCitaDto.f_respiratoria}" th:disabled="${#strings.equals(reponseCitaDto.estado,'T')}">
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <label  class="col-sm-2 col-form-label">Diagnóstico</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" style="height: 100px" required name="diagnostico" th:disabled="${#strings.equals(reponseCitaDto.estado,'T')}" ></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary" th:disabled="${#strings.equals(reponseCitaDto.estado,'T')}">Guardar Cita</button>
+                        </div>
+                    </div>
+
+                </form><!-- End General Form Elements -->
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+</html>

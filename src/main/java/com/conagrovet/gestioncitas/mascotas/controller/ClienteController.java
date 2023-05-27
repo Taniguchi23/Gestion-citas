@@ -1,5 +1,7 @@
 package com.conagrovet.gestioncitas.mascotas.controller;
 
+import com.conagrovet.gestioncitas.citas.dto.ResponseCitaDto;
+import com.conagrovet.gestioncitas.citas.service.CitaService;
 import com.conagrovet.gestioncitas.mascotas.dto.MascotaResponseDto;
 import com.conagrovet.gestioncitas.mascotas.service.MascotasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class ClienteController {
     @Autowired
     private MascotasService mascotasService;
 
+    @Autowired
+    private CitaService citaService;
+
     @GetMapping
     public String index(){
         return "/usuario/index";
@@ -31,11 +36,16 @@ public class ClienteController {
         return "/usuario/mascota/index";
 
     }
-
     @GetMapping("/mascotas/ver/{id}")
     public String listaMascotas(@PathVariable("id") String id, Model model){
         MascotaResponseDto mascotaResponseDto = mascotasService.getMascota(Integer.parseInt(id));
         model.addAttribute("mascotaDto", mascotaResponseDto);
         return "/usuario/mascota/mascota";
+    }
+    @GetMapping("/mascotas/cita/{id}")
+    public String getCita(@PathVariable("id") String id, Model model){
+        ResponseCitaDto reponseCitaDto = citaService.getCita(Integer.parseInt(id));
+        model.addAttribute("reponseCitaDto",reponseCitaDto);
+        return "/usuario/mascota/cita";
     }
 }
